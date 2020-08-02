@@ -1,0 +1,77 @@
+openapi: 3.0.1
+info:
+  description: payment api
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: XPay api
+  version: 1.0.0
+servers:
+- url: https://api.xpay.lucfish.com/v1
+tags:
+- description: payment
+  name: payment
+paths:
+  /payment:
+    post:
+      description: 创建 payment
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+          description: successful operation
+      summary: 创建 payment
+      tags:
+      - payment
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    CreatePaymentReq:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      type: object
+    PaymentResponse:
+      allOf:
+      - $ref: '#/components/schemas/APIResponse'
+      - $ref: '#/components/schemas/PaymentResponse_allOf'
+    Payment:
+      properties:
+        id:
+          type: string
+      type: object
+    APIResponse:
+      description: ""
+      properties:
+        code:
+          description: 响应码
+          format: int32
+          type: integer
+        requestId:
+          description: 请求id
+          type: string
+        resultMsg:
+          description: 响应说明
+          type: string
+        errorStackTrace:
+          type: string
+      title: APIResponse
+      type: object
+    PaymentResponse_allOf:
+      properties:
+        data:
+          $ref: '#/components/schemas/Payment'
+

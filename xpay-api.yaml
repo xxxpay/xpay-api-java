@@ -1,0 +1,73 @@
+swagger: "2.0"
+info:
+  description: "payment api"
+  version: 1.0.0
+  title: XPay api
+  license:
+    name: Apache-2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+host: api.xpay.lucfish.com
+basePath: /v1
+tags:
+  - name: payment
+    description: payment
+schemes:
+  - https
+paths:
+  /payment:
+    post:
+      tags:
+        - payment
+      summary: 创建 payment
+      description: 创建 payment
+      operationId: create
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/CreatePaymentReq"
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PaymentResponse"
+definitions:
+  CreatePaymentReq:
+    type: object
+    properties:
+      id:
+        type: string
+  PaymentResponse:
+    allOf:
+      - $ref: "#/definitions/APIResponse"
+      - type: object
+        properties:
+          data:
+            $ref: "#/definitions/Payment"
+  Payment:
+    type: object
+    properties:
+      id:
+        type: string
+  APIResponse:
+    title: APIResponse
+    description: ""
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: 响应码
+      requestId:
+        type: string
+        description: 请求id
+      resultMsg:
+        type: string
+        description: 响应说明
+      errorStackTrace:
+        type: string
